@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Form" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://src/data/form.gd" id="1_form"]
+[ext_resource type="Resource" path="res://content/skills/steady_strike.tres" id="2_sig"]
+[ext_resource type="Resource" path="res://content/skills/mend.tres" id="6_pool"]
+[ext_resource type="Resource" path="res://content/skills/guard_up.tres" id="5_pool"]
+[ext_resource type="Resource" path="res://content/skills/shove.tres" id="3_pool"]
+[ext_resource type="Resource" path="res://content/skills/patient_shot.tres" id="4_pool"]
+
+[resource]
+script = ExtResource("1_form")
+id = &"golem_hatchling"
+display_name = "Geode"
+family = &"golem"
+pat_attribute_scaling = 1
+fer_attribute_scaling = 0
+int_attribute_scaling = 0
+base_offense_points = 11
+base_defense_points = 14
+signature_attack = ExtResource("2_sig")
+skill_pool = Array[Resource]([ExtResource("3_pool"), ExtResource("4_pool"), ExtResource("5_pool"), ExtResource("6_pool")])

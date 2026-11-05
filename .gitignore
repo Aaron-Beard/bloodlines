@@ -1,0 +1,12 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+
+# my own notes, not project files
+PROGRESS.md
+
+# exported builds
+build/
+
+# tests and content checks, the game doesn't need them to run
+tests/

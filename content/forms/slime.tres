@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Form" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://src/data/form.gd" id="1_form"]
+[ext_resource type="Resource" path="res://content/skills/splash.tres" id="2_sig"]
+[ext_resource type="Resource" path="res://content/skills/goo.tres" id="3_pool"]
+
+[resource]
+script = ExtResource("1_form")
+id = &"slime"
+display_name = "Slime"
+family = &"slime"
+pat_attribute_scaling = 1
+fer_attribute_scaling = 0
+int_attribute_scaling = 0
+base_offense_points = 10
+base_defense_points = 15
+signature_attack = ExtResource("2_sig")
+skill_pool = Array[Resource]([ExtResource("3_pool")])

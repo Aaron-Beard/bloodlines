@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Form" format=3 uid="uid://cbhouiwmjehgx"]
+
+[ext_resource type="Script" uid="uid://kabd6nkbalnf" path="res://src/data/form.gd" id="1_form"]
+[ext_resource type="Resource" path="res://content/skills/swift_strike.tres" id="2_sig"]
+[ext_resource type="Resource" path="res://content/skills/flurry.tres" id="3_pool"]
+[ext_resource type="Script" uid="uid://vhyadv4y8unc" path="res://src/data/skill.gd" id="3_qdnq4"]
+[ext_resource type="Resource" path="res://content/skills/lunge.tres" id="4_pool"]
+[ext_resource type="Resource" uid="uid://c8pauoa34demy" path="res://content/skills/expose.tres" id="5_pool"]
+
+[resource]
+script = ExtResource("1_form")
+id = &"cat_hatchling"
+display_name = "Kitten"
+family = &"cat"
+fer_attribute_scaling = 1
+base_offense_points = 12
+base_defense_points = 13
+signature_attack = ExtResource("2_sig")
+skill_pool = Array[ExtResource("3_qdnq4")]([ExtResource("3_pool"), ExtResource("4_pool"), ExtResource("5_pool")])
