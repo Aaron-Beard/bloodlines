@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://b312gijm0snll"]
+
+[node name="TeamSlot" type="PanelContainer" unique_id=1996517450]
+custom_minimum_size = Vector2(200, 100)
+custom_maximum_size = Vector2(200, -1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=112619083]
+custom_maximum_size = Vector2(200, -1)
+layout_mode = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="PositionLabel" type="Label" parent="VBoxContainer" unique_id=134995424]
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="CreatureDropdown" type="OptionButton" parent="VBoxContainer" unique_id=2112853424]
+layout_mode = 2
+
+[node name="Split" type="HBoxContainer" parent="VBoxContainer" unique_id=824275115]
+custom_maximum_size = Vector2(200, -1)
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="OffenseLabel" type="Label" parent="VBoxContainer/Split" unique_id=1840292945]
+layout_mode = 2
+
+[node name="AllocationSlider" type="HSlider" parent="VBoxContainer/Split" unique_id=2120735994]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+
+[node name="DefenseLabel" type="Label" parent="VBoxContainer/Split" unique_id=1185836521]
+layout_mode = 2
+
+[node name="TotalsLabel" type="Label" parent="VBoxContainer" unique_id=1910270635]
+layout_mode = 2
+horizontal_alignment = 1

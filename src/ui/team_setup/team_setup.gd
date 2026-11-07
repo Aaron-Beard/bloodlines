@@ -26,35 +26,20 @@ static var enemy_spent_offense: Array[int] = []
 ## one entry per slot on each team, each one holding that slot's dropdown, slider and totals label
 var player_slots: Array[Dictionary] = []
 var enemy_slots: Array[Dictionary] = []
-var start_button: Button
 
+@onready var player_slots_container = $MainMargin/MainLayout/TeamsContainer/PlayerPanel/PlayerLayout/PlayerSlots
+@onready var enemy_slots_container = $MainMargin/MainLayout/TeamsContainer/EnemyPanel/EnemyLayout/EnemySlots
+@onready var start_button = $MainMargin/MainLayout/BottomBar/StartFightButton
+const CREATURE_CARD_SCENE = preload("res://src/ui/team_setup/components/creature_card.tscn")
+const TEAM_SLOT_SCENE = preload("res://src/ui/team_setup/components/team_slot.tscn")
 
 func _ready() -> void:
-	var margin := MarginContainer.new()
-	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	for edge in ["left", "right", "top", "bottom"]:
-		margin.add_theme_constant_override("margin_" + edge, 16)
-	add_child(margin)
+	player_slots = _build_team(player_slots_container, "Player Team", PLAYER_FORM_IDS, player_forms, player_spent_offense)
+	enemy_slots = _build_team(enemy_slots_container, "Enemy Team", ENEMY_FORM_IDS, enemy_forms, enemy_spent_offense)
 
-	var page := VBoxContainer.new()
-	page.add_theme_constant_override("separation", 16)
-	margin.add_child(page)
-
-	var teams := HBoxContainer.new()
-	teams.add_theme_constant_override("separation", 40)
-	page.add_child(teams)
-	var player_forms_now := player_forms if not player_forms.is_empty() else DEFAULT_PLAYER_FORMS
-	var player_spent_now := player_spent_offense
-	var enemy_forms_now := enemy_forms if not enemy_forms.is_empty() else DEFAULT_ENEMY_FORMS
-	var enemy_spent_now := enemy_spent_offense
-	player_slots = _build_team(teams, "your team", PLAYER_FORM_IDS, player_forms_now, player_spent_now)
-	enemy_slots = _build_team(teams, "enemy team", ENEMY_FORM_IDS, enemy_forms_now, enemy_spent_now)
-
-	start_button = Button.new()
-	start_button.text = "Start fight"
-	start_button.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	_build_creature_roster()
 	start_button.pressed.connect(_on_start_pressed)
-	page.add_child(start_button)
+
 	_update_start_button()
 
 
@@ -62,59 +47,63 @@ func _ready() -> void:
 ## picks fill the first rows, anything past them starts empty
 func _build_team(parent: Control, heading: String, choices: Array[String],
 		picked: Array[String], spent: Array[int]) -> Array[Dictionary]:
-	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 10)
-	parent.add_child(column)
-	var title := Label.new()
-	title.text = "%s, front at the top" % heading
-	column.add_child(title)
 
 	var slots: Array[Dictionary] = []
-	for slot in Combat.POSITIONS_PER_TEAM:
-		var row := HBoxContainer.new()
-		row.add_theme_constant_override("separation", 10)
-		column.add_child(row)
+	
+	for i in range(Combat.POSITIONS_PER_TEAM):
+		# create a TeamSlot instance
+		var slot_node = TEAM_SLOT_SCENE.instantiate()
+		parent.add_child(slot_node)
 
-		var dropdown := OptionButton.new()
-		dropdown.custom_minimum_size = Vector2(150, 0)
+		# Get references to the nodes inside TeamSlot
+		var dropdown: OptionButton = slot_node.get_node("VBoxContainer/CreatureDropdown")
+		var split: HBoxContainer = slot_node.get_node("VBoxContainer/Split")
+		var slider: HSlider = slot_node.get_node("VBoxContainer/Split/AllocationSlider")
+		# ^ offense on the left, defense on the right, so dragging toward a side gives that side more
+		#   that makes the slider's value the bonus points going to defense, _spent_offense() turns it back
+		#   it sits in its own box so an empty slot can hide all of it
+		var totals: Label = slot_node.get_node("VBoxContainer/TotalsLabel")
+		var position_label: Label = slot_node.get_node("VBoxContainer/PositionLabel")
+		
+		position_label.text = "Position %d" % (i + 1)
+		
+		# Populate the dropdown
 		dropdown.add_item("empty")
+		
 		for id in choices:
 			dropdown.add_item(_load_form(id).display_name)
-		row.add_child(dropdown)
-
-		# offense on the left, defense on the right, so dragging toward a side gives that side more
-		# that makes the slider's value the bonus points going to defense, _spent_offense() turns it back
-		# it sits in its own box so an empty slot can hide all of it
-		var split := HBoxContainer.new()
-		split.add_theme_constant_override("separation", 10)
-		row.add_child(split)
-		var offense_word := Label.new()
-		offense_word.text = "off"
-		split.add_child(offense_word)
-		var slider := HSlider.new()
-		slider.step = 1
-		slider.custom_minimum_size = Vector2(130, 0)
-		slider.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-		split.add_child(slider)
-		var defense_word := Label.new()
-		defense_word.text = "def"
-		split.add_child(defense_word)
-
-		var totals := Label.new()
-		totals.custom_minimum_size = Vector2(140, 0)
-		split.add_child(totals)
-
-		var entry := {"choices": choices, "dropdown": dropdown, "split": split, "slider": slider, "totals": totals}
+		
+		# Store references for existing game logic
+		var entry = {
+			"choices": choices,
+			"dropdown": dropdown,
+			"split": split,
+			"slider": slider,
+			"totals": totals
+			}
+		
 		slots.append(entry)
-		if slot < picked.size():
-			dropdown.select(choices.find(picked[slot]) + 1)
+		# Restore saved selection
+		if i < picked.size():
+			dropdown.select(choices.find(picked[i]) + 1)
+
 		_on_form_picked(entry)
-		# the slider's max depends on the form, so the saved split goes in after the form
-		if slot < spent.size() and _form_in(entry) != null:
-			slider.value = _form_in(entry).bonus_pool - spent[slot]
+
+		# Restore saved stat allocation
+		if i < spent.size() and _form_in(entry) != null:
+			slider.value = _form_in(entry).bonus_pool - spent[i]
+
 		_update_totals(entry)
-		dropdown.item_selected.connect(func(_index: int) -> void: _on_form_picked(entry))
-		slider.value_changed.connect(func(_value: float) -> void: _update_totals(entry))
+
+		# Connect signals
+		dropdown.item_selected.connect(func(_index: int) -> void:
+			_on_form_picked(entry)
+		)
+
+		slider.value_changed.connect(func(_value: float) -> void:
+			_update_totals(entry)
+		)
+
 	return slots
 
 
@@ -188,3 +177,25 @@ func _save_team(slots: Array[Dictionary], forms: Array[String], spent: Array[int
 ## the slider holds the points going to defense, everything else in the pool goes to offense
 func _spent_offense(entry: Dictionary) -> int:
 	return _form_in(entry).bonus_pool - int(entry["slider"].value)
+
+
+func _build_creature_roster() -> void:
+	var roster = $MainMargin/MainLayout/TeamsContainer/PlayerPanel/PlayerLayout/CreatureRoster
+
+	for id in PLAYER_FORM_IDS:
+		var form = _load_form(id)
+		var card = CREATURE_CARD_SCENE.instantiate()
+
+		roster.add_child(card)
+		card.setup(form)
+		
+		card.selected.connect(_on_creature_card_selected)
+
+func _on_creature_card_selected(form_id: String) -> void:
+	for entry in player_slots:
+		var dropdown: OptionButton = entry["dropdown"]
+
+		if dropdown.selected == 0:
+			dropdown.select(PLAYER_FORM_IDS.find(form_id) + 1)
+			_on_form_picked(entry)
+			return
