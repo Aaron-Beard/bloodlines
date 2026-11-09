@@ -60,10 +60,6 @@ text = "PLAYER TEAM"
 layout_mode = 2
 columns = 4
 
-[node name="CreatureRoster" type="GridContainer" parent="MainMargin/MainLayout/TeamsContainer/PlayerPanel/PlayerLayout" unique_id=2030418369]
-layout_mode = 2
-columns = 3
-
 [node name="EnemyPanel" type="PanelContainer" parent="MainMargin/MainLayout/TeamsContainer" unique_id=851650345]
 layout_mode = 2
 
@@ -78,40 +74,12 @@ text = "ENEMY TEAM"
 layout_mode = 2
 columns = 4
 
-[node name="CreatureDetails" type="PanelContainer" parent="MainMargin/MainLayout" unique_id=1021111337]
-layout_mode = 2
-
-[node name="DetailsLayout" type="HBoxContainer" parent="MainMargin/MainLayout/CreatureDetails" unique_id=300557463]
-layout_mode = 2
-
-[node name="CreatureArtwork" type="TextureRect" parent="MainMargin/MainLayout/CreatureDetails/DetailsLayout" unique_id=400052091]
-layout_mode = 2
-
-[node name="CreatureInfo" type="VBoxContainer" parent="MainMargin/MainLayout/CreatureDetails/DetailsLayout" unique_id=914836959]
-layout_mode = 2
-
-[node name="CreatureName" type="Label" parent="MainMargin/MainLayout/CreatureDetails/DetailsLayout/CreatureInfo" unique_id=1137628585]
-layout_mode = 2
-
-[node name="CreatureStats" type="HBoxContainer" parent="MainMargin/MainLayout/CreatureDetails/DetailsLayout/CreatureInfo" unique_id=516018547]
-layout_mode = 2
-
-[node name="StatAllocation" type="VBoxContainer" parent="MainMargin/MainLayout/CreatureDetails/DetailsLayout/CreatureInfo" unique_id=1936773510]
-layout_mode = 2
-
-[node name="OffenseLabel" type="Label" parent="MainMargin/MainLayout/CreatureDetails/DetailsLayout/CreatureInfo/StatAllocation" unique_id=832226693]
-layout_mode = 2
-
-[node name="AllocationSlider" type="HSlider" parent="MainMargin/MainLayout/CreatureDetails/DetailsLayout/CreatureInfo/StatAllocation" unique_id=2008141570]
-layout_mode = 2
-
-[node name="DefenseLabel" type="Label" parent="MainMargin/MainLayout/CreatureDetails/DetailsLayout/CreatureInfo/StatAllocation" unique_id=55644086]
-layout_mode = 2
-
 [node name="BottomBar" type="HBoxContainer" parent="MainMargin/MainLayout" unique_id=322896098]
 layout_mode = 2
 
 [node name="StartFightButton" type="Button" parent="MainMargin/MainLayout/BottomBar" unique_id=381940401]
 layout_mode = 2
+text = "START"
 
 [node name="CreaturePicker" parent="." unique_id=364917334 instance=ExtResource("3_mrmsb")]
+visible = false

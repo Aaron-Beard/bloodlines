@@ -23,10 +23,11 @@ static var player_spent_offense: Array[int] = []
 static var enemy_forms: Array[String] = []
 static var enemy_spent_offense: Array[int] = []
 
-## one entry per slot on each team, each one holding that slot's dropdown, slider and totals label
+## one entry per slot on each team
 var player_slots: Array[Dictionary] = []
 var enemy_slots: Array[Dictionary] = []
 var selected_player_slot: Dictionary = {}
+var selected_enemy_slot: Dictionary = {}
 
 @onready var player_slots_container = $MainMargin/MainLayout/TeamsContainer/PlayerPanel/PlayerLayout/PlayerSlots
 @onready var enemy_slots_container = $MainMargin/MainLayout/TeamsContainer/EnemyPanel/EnemyLayout/EnemySlots
@@ -87,13 +88,23 @@ func _build_team(parent: Control, heading: String, choices: Array[String],
 			}
 		
 		slots.append(entry)
+		
 		if parent == player_slots_container:
 			slot_node.gui_input.connect(func(event: InputEvent):
 				if event is InputEventMouseButton:
-					if event.button_index == MOUSE_BUTTON_LEFT:
-						if event.pressed:
-							selected_player_slot = entry
-							creature_picker.open_picker(PLAYER_FORM_IDS)
+					if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+						selected_player_slot = entry
+						selected_enemy_slot = {}
+						creature_picker.open_picker(PLAYER_FORM_IDS)
+			)
+			
+		elif parent == enemy_slots_container:
+			slot_node.gui_input.connect(func(event: InputEvent):
+				if event is InputEventMouseButton:
+					if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+						selected_enemy_slot = entry
+						selected_player_slot = {}
+						creature_picker.open_picker(ENEMY_FORM_IDS)
 			)
 
 		# Restore saved selection
@@ -201,10 +212,12 @@ func _clear_team_slot(entry: Dictionary) -> void:
 	_on_form_picked(entry)
 
 func _on_creature_confirmed(form_id: String) -> void:
-	if selected_player_slot.is_empty():
-		return
+	if not selected_player_slot.is_empty():
+		selected_player_slot["form_id"] = form_id
+		_on_form_picked(selected_player_slot)
+		selected_player_slot = {}
 
-	selected_player_slot["form_id"] = form_id
-	_on_form_picked(selected_player_slot)
-
-	selected_player_slot = {}
+	elif not selected_enemy_slot.is_empty():
+		selected_enemy_slot["form_id"] = form_id
+		_on_form_picked(selected_enemy_slot)
+		selected_enemy_slot = {}
