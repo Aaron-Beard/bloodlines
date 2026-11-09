@@ -84,7 +84,8 @@ func _build_team(parent: Control, heading: String, choices: Array[String],
 			"split": split,
 			"slider": slider,
 			"totals": totals,
-			"clear_button": clear_button
+			"clear_button": clear_button,
+			"slot_node": slot_node,
 			}
 		
 		slots.append(entry)
@@ -151,10 +152,12 @@ func _on_form_picked(entry: Dictionary) -> void:
 	entry["split"].visible = form != null
 	if form != null:
 		entry["creature_name"].text = form.display_name
+		entry["slot_node"].set_creature_image(form.image)
 		slider.max_value = form.bonus_pool
 		slider.value = floori(form.bonus_pool / 2.0)
 	else:
 		entry["creature_name"].text = "Empty"
+		entry["slot_node"].set_creature_image(null)
 	_update_totals(entry)
 	_update_start_button()
 

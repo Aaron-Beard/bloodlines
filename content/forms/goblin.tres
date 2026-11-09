@@ -1,18 +1,19 @@
-[gd_resource type="Resource" script_class="Form" load_steps=4 format=3]
+[gd_resource type="Resource" script_class="Form" format=3 uid="uid://cynkbtqqv72ji"]
 
-[ext_resource type="Script" path="res://src/data/form.gd" id="1_form"]
+[ext_resource type="Texture2D" uid="uid://b85jvngnynlo6" path="res://assets/creatures/goblin.png" id="1_0e1n5"]
+[ext_resource type="Script" uid="uid://kabd6nkbalnf" path="res://src/data/form.gd" id="1_form"]
 [ext_resource type="Resource" path="res://content/skills/stab.tres" id="2_sig"]
 [ext_resource type="Resource" path="res://content/skills/rock_toss.tres" id="3_pool"]
+[ext_resource type="Script" uid="uid://vhyadv4y8unc" path="res://src/data/skill.gd" id="4_eavfs"]
 
 [resource]
 script = ExtResource("1_form")
 id = &"goblin"
 display_name = "Goblin"
+image = ExtResource("1_0e1n5")
 family = &"goblin"
-pat_attribute_scaling = 0
-fer_attribute_scaling = 0
 int_attribute_scaling = 1
 base_offense_points = 12
 base_defense_points = 13
 signature_attack = ExtResource("2_sig")
-skill_pool = Array[Resource]([ExtResource("3_pool")])
+skill_pool = Array[ExtResource("4_eavfs")]([ExtResource("3_pool")])

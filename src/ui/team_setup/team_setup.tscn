@@ -29,9 +29,14 @@ offset_left = -1.0
 offset_right = -1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
 
 [node name="MainLayout" type="VBoxContainer" parent="MainMargin" unique_id=987861285]
 layout_mode = 2
+theme_override_constants/separation = 10
 
 [node name="Header" type="HBoxContainer" parent="MainMargin/MainLayout" unique_id=1134792659]
 layout_mode = 2
@@ -45,6 +50,9 @@ text = "Select Your Creatures"
 
 [node name="TeamsContainer" type="VBoxContainer" parent="MainMargin/MainLayout" unique_id=308832418]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 60
 
 [node name="PlayerPanel" type="PanelContainer" parent="MainMargin/MainLayout/TeamsContainer" unique_id=1501931208]
 layout_mode = 2
@@ -74,12 +82,14 @@ text = "ENEMY TEAM"
 layout_mode = 2
 columns = 4
 
-[node name="BottomBar" type="HBoxContainer" parent="MainMargin/MainLayout" unique_id=322896098]
+[node name="BottomBar" type="VBoxContainer" parent="MainMargin/MainLayout" unique_id=1282130703]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 10
 
 [node name="StartFightButton" type="Button" parent="MainMargin/MainLayout/BottomBar" unique_id=381940401]
 layout_mode = 2
-text = "START"
+text = "     START     "
 
 [node name="CreaturePicker" parent="." unique_id=364917334 instance=ExtResource("3_mrmsb")]
 visible = false

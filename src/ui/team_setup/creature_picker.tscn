@@ -2,6 +2,34 @@
 
 [ext_resource type="Script" uid="uid://ddmx7uqv1wbvd" path="res://src/ui/team_setup/creature_picker.gd" id="1_txpjj"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_txpjj"]
+bg_color = Color(0.120000005, 0.21966669, 0.25, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hmqmd"]
+bg_color = Color(0.039215688, 0.12156863, 0.14901961, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h6xrl"]
+bg_color = Color(0.29411766, 0.44705883, 0.5019608, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0wcjo"]
+bg_color = Color(0.1, 0.1, 0.1, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
 [node name="CreaturePicker" type="PopupPanel" unique_id=364917334]
 oversampling_override = 1.0
 size = Vector2i(308, 151)
@@ -31,7 +59,7 @@ size_flags_horizontal = 3
 
 [node name="CloseButton" type="Button" parent="PickerLayout/PickerHeader" unique_id=1679153902]
 layout_mode = 2
-text = "x"
+text = "  x  "
 alignment = 2
 
 [node name="CreatureGrid" type="GridContainer" parent="PickerLayout" unique_id=1578684580]
@@ -40,4 +68,14 @@ columns = 3
 
 [node name="SelectButton" type="Button" parent="PickerLayout" unique_id=1459924792]
 layout_mode = 2
-text = "Select"
+size_flags_horizontal = 4
+size_flags_vertical = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_txpjj")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_hmqmd")
+theme_override_styles/hover = SubResource("StyleBoxFlat_h6xrl")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_0wcjo")
+text = "     Select     "
+
+[node name="Spacer" type="Control" parent="PickerLayout" unique_id=71175921]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2

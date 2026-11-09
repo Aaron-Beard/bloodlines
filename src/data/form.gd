@@ -7,6 +7,7 @@ extends Resource
 
 @export var id: StringName = &""
 @export var display_name: String = ""
+@export var image: Texture2D
 
 ## which evolution line this form belongs to, like golem
 @export var family: StringName = &""

@@ -19,6 +19,7 @@ func setup(new_form: Form) -> void:
 	form_id = String(new_form.id)
 
 	creature_name.text = form.display_name
+	creature_image.texture = form.image
 
 	creature_type.text = "PAT: %s | FER: %s | INT: %s" % [
 		Enums.AttributeScaling.keys()[form.pat_attribute_scaling],
@@ -37,7 +38,7 @@ func set_selected(is_selected: bool) -> void:
 		var style = StyleBoxFlat.new()
 		style.bg_color = Color(0.1, 0.16, 0.24)
 		style.border_color = Color(0.25, 0.65, 1.0)
-		style.set_border_width_all(3)
+		style.set_border_width_all(2)
 		style.set_corner_radius_all(6)
 
 		add_theme_stylebox_override("panel", style)
