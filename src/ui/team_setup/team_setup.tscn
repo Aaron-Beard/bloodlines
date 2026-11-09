@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://enenlismsptc" path="res://src/ui/team_setup/team_setup.gd" id="1_vrvh7"]
 [ext_resource type="Texture2D" uid="uid://fbcrhp2accyo" path="res://assets/background.jpg" id="2_oxwca"]
+[ext_resource type="PackedScene" uid="uid://jbat18xlm7f3" path="res://src/ui/team_setup/creature_picker.tscn" id="3_mrmsb"]
 
 [node name="TeamSetup" type="Control" unique_id=397901375]
 layout_mode = 3
@@ -24,6 +25,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -1.0
+offset_right = -1.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -110,3 +113,5 @@ layout_mode = 2
 
 [node name="StartFightButton" type="Button" parent="MainMargin/MainLayout/BottomBar" unique_id=381940401]
 layout_mode = 2
+
+[node name="CreaturePicker" parent="." unique_id=364917334 instance=ExtResource("3_mrmsb")]

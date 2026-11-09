@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://jbat18xlm7f3"]
+
+[ext_resource type="Script" uid="uid://ddmx7uqv1wbvd" path="res://src/ui/team_setup/creature_picker.gd" id="1_txpjj"]
+
+[node name="CreaturePicker" type="PopupPanel" unique_id=364917334]
+oversampling_override = 1.0
+size = Vector2i(308, 151)
+visible = true
+script = ExtResource("1_txpjj")
+
+[node name="PickerLayout" type="VBoxContainer" parent="." unique_id=1424884078]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PickerHeader" type="HBoxContainer" parent="PickerLayout" unique_id=1706909296]
+layout_mode = 2
+
+[node name="PickerTitle" type="Label" parent="PickerLayout/PickerHeader" unique_id=920252801]
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="PickerLayout/PickerHeader" unique_id=1509657086]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CloseButton" type="Button" parent="PickerLayout/PickerHeader" unique_id=1679153902]
+layout_mode = 2
+text = "x"
+alignment = 2
+
+[node name="CreatureGrid" type="GridContainer" parent="PickerLayout" unique_id=1578684580]
+layout_mode = 2
+columns = 3
+
+[node name="SelectButton" type="Button" parent="PickerLayout" unique_id=1459924792]
+layout_mode = 2
+text = "Select"

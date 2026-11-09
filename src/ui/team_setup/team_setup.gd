@@ -26,19 +26,25 @@ static var enemy_spent_offense: Array[int] = []
 ## one entry per slot on each team, each one holding that slot's dropdown, slider and totals label
 var player_slots: Array[Dictionary] = []
 var enemy_slots: Array[Dictionary] = []
+var selected_player_slot: Dictionary = {}
 
 @onready var player_slots_container = $MainMargin/MainLayout/TeamsContainer/PlayerPanel/PlayerLayout/PlayerSlots
 @onready var enemy_slots_container = $MainMargin/MainLayout/TeamsContainer/EnemyPanel/EnemyLayout/EnemySlots
 @onready var start_button = $MainMargin/MainLayout/BottomBar/StartFightButton
-const CREATURE_CARD_SCENE = preload("res://src/ui/team_setup/components/creature_card.tscn")
+@onready var creature_picker: CreaturePicker = $CreaturePicker
 const TEAM_SLOT_SCENE = preload("res://src/ui/team_setup/components/team_slot.tscn")
 
-func _ready() -> void:
-	player_slots = _build_team(player_slots_container, "Player Team", PLAYER_FORM_IDS, player_forms, player_spent_offense)
-	enemy_slots = _build_team(enemy_slots_container, "Enemy Team", ENEMY_FORM_IDS, enemy_forms, enemy_spent_offense)
 
-	_build_creature_roster()
+func _ready() -> void:
+	var initial_enemy_forms: Array[String] = enemy_forms
+	if initial_enemy_forms.is_empty():
+		initial_enemy_forms = DEFAULT_ENEMY_FORMS
+	player_slots = _build_team(player_slots_container, "Player Team", PLAYER_FORM_IDS, player_forms, player_spent_offense)
+	enemy_slots = _build_team(enemy_slots_container, "Enemy Team", ENEMY_FORM_IDS, initial_enemy_forms, enemy_spent_offense)
+
+	
 	start_button.pressed.connect(_on_start_pressed)
+	creature_picker.creature_confirmed.connect(_on_creature_confirmed)
 
 	_update_start_button()
 
@@ -54,38 +60,45 @@ func _build_team(parent: Control, heading: String, choices: Array[String],
 		# create a TeamSlot instance
 		var slot_node = TEAM_SLOT_SCENE.instantiate()
 		parent.add_child(slot_node)
+		
 
 		# Get references to the nodes inside TeamSlot
-		var dropdown: OptionButton = slot_node.get_node("VBoxContainer/CreatureDropdown")
 		var split: HBoxContainer = slot_node.get_node("VBoxContainer/Split")
+		var creature_name: Label = slot_node.get_node("VBoxContainer/CreatureName")
 		var slider: HSlider = slot_node.get_node("VBoxContainer/Split/AllocationSlider")
 		# ^ offense on the left, defense on the right, so dragging toward a side gives that side more
 		#   that makes the slider's value the bonus points going to defense, _spent_offense() turns it back
 		#   it sits in its own box so an empty slot can hide all of it
 		var totals: Label = slot_node.get_node("VBoxContainer/TotalsLabel")
 		var position_label: Label = slot_node.get_node("VBoxContainer/PositionLabel")
+		var clear_button: Button = slot_node.get_node("VBoxContainer/ClearButton")
 		
 		position_label.text = "Position %d" % (i + 1)
-		
-		# Populate the dropdown
-		dropdown.add_item("empty")
-		
-		for id in choices:
-			dropdown.add_item(_load_form(id).display_name)
 		
 		# Store references for existing game logic
 		var entry = {
 			"choices": choices,
-			"dropdown": dropdown,
+			"form_id": "",
+			"creature_name": creature_name,
 			"split": split,
 			"slider": slider,
-			"totals": totals
+			"totals": totals,
+			"clear_button": clear_button
 			}
 		
 		slots.append(entry)
+		if parent == player_slots_container:
+			slot_node.gui_input.connect(func(event: InputEvent):
+				if event is InputEventMouseButton:
+					if event.button_index == MOUSE_BUTTON_LEFT:
+						if event.pressed:
+							selected_player_slot = entry
+							creature_picker.open_picker(PLAYER_FORM_IDS)
+			)
+
 		# Restore saved selection
 		if i < picked.size():
-			dropdown.select(choices.find(picked[i]) + 1)
+			entry["form_id"] = picked[i]
 
 		_on_form_picked(entry)
 
@@ -95,13 +108,12 @@ func _build_team(parent: Control, heading: String, choices: Array[String],
 
 		_update_totals(entry)
 
-		# Connect signals
-		dropdown.item_selected.connect(func(_index: int) -> void:
-			_on_form_picked(entry)
-		)
-
 		slider.value_changed.connect(func(_value: float) -> void:
 			_update_totals(entry)
+		)
+		
+		clear_button.pressed.connect(func():
+			_clear_team_slot(entry)
 		)
 
 	return slots
@@ -109,10 +121,12 @@ func _build_team(parent: Control, heading: String, choices: Array[String],
 
 ## null if the slot is empty
 func _form_in(entry: Dictionary) -> Form:
-	var index: int = entry["dropdown"].selected
-	if index <= 0:
+	var id: String = entry["form_id"]
+
+	if id == "":
 		return null
-	return _load_form(entry["choices"][index - 1])
+
+	return _load_form(id)
 
 
 func _load_form(id: String) -> Form:
@@ -125,8 +139,11 @@ func _on_form_picked(entry: Dictionary) -> void:
 	var slider: HSlider = entry["slider"]
 	entry["split"].visible = form != null
 	if form != null:
+		entry["creature_name"].text = form.display_name
 		slider.max_value = form.bonus_pool
 		slider.value = floori(form.bonus_pool / 2.0)
+	else:
+		entry["creature_name"].text = "Empty"
 	_update_totals(entry)
 	_update_start_button()
 
@@ -179,23 +196,15 @@ func _spent_offense(entry: Dictionary) -> int:
 	return _form_in(entry).bonus_pool - int(entry["slider"].value)
 
 
-func _build_creature_roster() -> void:
-	var roster = $MainMargin/MainLayout/TeamsContainer/PlayerPanel/PlayerLayout/CreatureRoster
+func _clear_team_slot(entry: Dictionary) -> void:
+	entry["form_id"] = ""
+	_on_form_picked(entry)
 
-	for id in PLAYER_FORM_IDS:
-		var form = _load_form(id)
-		var card = CREATURE_CARD_SCENE.instantiate()
+func _on_creature_confirmed(form_id: String) -> void:
+	if selected_player_slot.is_empty():
+		return
 
-		roster.add_child(card)
-		card.setup(form)
-		
-		card.selected.connect(_on_creature_card_selected)
+	selected_player_slot["form_id"] = form_id
+	_on_form_picked(selected_player_slot)
 
-func _on_creature_card_selected(form_id: String) -> void:
-	for entry in player_slots:
-		var dropdown: OptionButton = entry["dropdown"]
-
-		if dropdown.selected == 0:
-			dropdown.select(PLAYER_FORM_IDS.find(form_id) + 1)
-			_on_form_picked(entry)
-			return
+	selected_player_slot = {}
