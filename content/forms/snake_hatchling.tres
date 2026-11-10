@@ -1,20 +1,21 @@
-[gd_resource type="Resource" script_class="Form" load_steps=6 format=3]
+[gd_resource type="Resource" script_class="Form" format=3 uid="uid://cvntbcbhjv3l0"]
 
-[ext_resource type="Script" path="res://src/data/form.gd" id="1_form"]
+[ext_resource type="Script" uid="uid://kabd6nkbalnf" path="res://src/data/form.gd" id="1_form"]
+[ext_resource type="Texture2D" uid="uid://c61oisdjfjhbq" path="res://assets/creatures/snake_hatchling.png" id="1_neuae"]
 [ext_resource type="Resource" path="res://content/skills/smart_strike.tres" id="2_sig"]
-[ext_resource type="Resource" path="res://content/skills/venom_bite.tres" id="5_pool"]
 [ext_resource type="Resource" path="res://content/skills/sweep.tres" id="3_pool"]
+[ext_resource type="Script" uid="uid://vhyadv4y8unc" path="res://src/data/skill.gd" id="4_4wqu8"]
 [ext_resource type="Resource" path="res://content/skills/pinpoint.tres" id="4_pool"]
+[ext_resource type="Resource" uid="uid://bciyoedvctprd" path="res://content/skills/venom_bite.tres" id="5_pool"]
 
 [resource]
 script = ExtResource("1_form")
 id = &"snake_hatchling"
 display_name = "Snake"
+image = ExtResource("1_neuae")
 family = &"snake"
-pat_attribute_scaling = 0
-fer_attribute_scaling = 0
 int_attribute_scaling = 1
 base_offense_points = 14
 base_defense_points = 11
 signature_attack = ExtResource("2_sig")
-skill_pool = Array[Resource]([ExtResource("3_pool"), ExtResource("4_pool"), ExtResource("5_pool")])
+skill_pool = Array[ExtResource("4_4wqu8")]([ExtResource("3_pool"), ExtResource("4_pool"), ExtResource("5_pool")])

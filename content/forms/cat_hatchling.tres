@@ -1,6 +1,7 @@
 [gd_resource type="Resource" script_class="Form" format=3 uid="uid://cbhouiwmjehgx"]
 
 [ext_resource type="Script" uid="uid://kabd6nkbalnf" path="res://src/data/form.gd" id="1_form"]
+[ext_resource type="Texture2D" uid="uid://c2mj0igd8qrk4" path="res://assets/creatures/cat_hatchling.png" id="1_hv4jp"]
 [ext_resource type="Resource" path="res://content/skills/swift_strike.tres" id="2_sig"]
 [ext_resource type="Resource" path="res://content/skills/flurry.tres" id="3_pool"]
 [ext_resource type="Script" uid="uid://vhyadv4y8unc" path="res://src/data/skill.gd" id="3_qdnq4"]
@@ -11,6 +12,7 @@
 script = ExtResource("1_form")
 id = &"cat_hatchling"
 display_name = "Kitten"
+image = ExtResource("1_hv4jp")
 family = &"cat"
 fer_attribute_scaling = 1
 base_offense_points = 12

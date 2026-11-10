@@ -19,7 +19,7 @@ const ENEMY_SPENT_OFFENSE: Array[int] = [5, 3, 7]
 ## placeholder, starting level isn't settled yet
 const DEMO_LEVEL := 5
 
-const SETUP_SCENE := "res://src/ui/team_setup.tscn"
+const SETUP_SCENE := "res://src/ui/team_setup/team_setup.tscn"
 
 ## seconds between actions that play by themselves
 const AUTO_PLAY_DELAY := 0.7
