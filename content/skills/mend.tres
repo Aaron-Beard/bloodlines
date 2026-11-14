@@ -11,4 +11,4 @@ base_power = 3.0
 cooldown_mult = 1.2
 valid_target_positions = Array[int]([0, 1, 2, 3])
 targeting = 1
-targets_allies = true
+reaches = 1

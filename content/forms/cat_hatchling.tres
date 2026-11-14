@@ -1,19 +1,26 @@
-[gd_resource type="Resource" script_class="Form" format=3 uid="uid://cbhouiwmjehgx"]
+[gd_resource type="Resource" script_class="PlayerForm" format=3]
 
-[ext_resource type="Script" uid="uid://kabd6nkbalnf" path="res://src/data/form.gd" id="1_form"]
-[ext_resource type="Resource" path="res://content/skills/swift_strike.tres" id="2_sig"]
-[ext_resource type="Resource" path="res://content/skills/flurry.tres" id="3_pool"]
-[ext_resource type="Script" uid="uid://vhyadv4y8unc" path="res://src/data/skill.gd" id="3_qdnq4"]
-[ext_resource type="Resource" path="res://content/skills/lunge.tres" id="4_pool"]
-[ext_resource type="Resource" uid="uid://c8pauoa34demy" path="res://content/skills/expose.tres" id="5_pool"]
+[ext_resource type="Script" path="res://src/data/player_form.gd" id="1_form"]
+[ext_resource type="Texture2D" uid="uid://c2mj0igd8qrk4" path="res://assets/creatures/cat_hatchling.png" id="image"]
+[ext_resource type="Resource" path="res://content/skills/scratch.tres" id="2_scratch"]
+[ext_resource type="Resource" path="res://content/skills/flurry.tres" id="3_flurry"]
+[ext_resource type="Resource" path="res://content/skills/lunge.tres" id="4_lunge"]
+[ext_resource type="Resource" path="res://content/skills/pounce.tres" id="5_pounce"]
+[ext_resource type="Resource" path="res://content/skills/mark_prey.tres" id="6_mark_prey"]
+[ext_resource type="Resource" path="res://content/skills/expose.tres" id="7_expose"]
+[ext_resource type="Resource" path="res://content/skills/execute.tres" id="8_execute"]
 
 [resource]
 script = ExtResource("1_form")
 id = &"cat_hatchling"
 display_name = "Kitten"
+image = ExtResource("image")
 family = &"cat"
+tier = 0
+pat_attribute_scaling = 0
 fer_attribute_scaling = 1
-base_offense_points = 12
-base_defense_points = 13
-signature_attack = ExtResource("2_sig")
-skill_pool = Array[ExtResource("3_qdnq4")]([ExtResource("3_pool"), ExtResource("4_pool"), ExtResource("5_pool")])
+int_attribute_scaling = 0
+base_offense_points = 19
+base_defense_points = 21
+signature_attack = ExtResource("2_scratch")
+skill_pool = Array[Resource]([ExtResource("3_flurry"), ExtResource("4_lunge"), ExtResource("5_pounce"), ExtResource("6_mark_prey"), ExtResource("7_expose"), ExtResource("8_execute")])

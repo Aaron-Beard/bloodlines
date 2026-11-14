@@ -1,0 +1,41 @@
+[gd_resource type="Resource" script_class="Skill" format=3]
+
+[ext_resource type="Script" path="res://src/data/skill.gd" id="1_skill"]
+[ext_resource type="Script" path="res://src/data/skill/skill_part.gd" id="2_part"]
+[ext_resource type="Script" path="res://src/data/skill/parts/add_shield.gd" id="3_add_shield"]
+[ext_resource type="Script" path="res://src/data/skill/parts/add_stack.gd" id="4_add_stack"]
+
+[sub_resource type="Resource" id="Resource_p1"]
+script = ExtResource("3_add_shield")
+window = 2
+who = 0
+value = "1"
+
+[sub_resource type="Resource" id="Resource_p2"]
+script = ExtResource("4_add_stack")
+window = 2
+who = 0
+stack_type = 2
+count = "1"
+duration = "3"
+
+[sub_resource type="Resource" id="Resource_p3"]
+script = ExtResource("4_add_stack")
+window = 2
+who = 0
+stack_type = 13
+count = "1"
+duration = "3"
+
+[resource]
+script = ExtResource("1_skill")
+id = &"insulate"
+display_name = "Insulate"
+kind = 2
+base_power = 0.0
+base_hit_chance = 0.85
+cooldown_mult = 1.1
+valid_target_positions = Array[int]([0, 1, 2, 3])
+targeting = 1
+reaches = 2
+parts = Array[ExtResource("2_part")]([SubResource("Resource_p1"), SubResource("Resource_p2"), SubResource("Resource_p3")])

@@ -7,7 +7,7 @@ extends Resource
 ## every skill has three parameters to balance, one against each defense:
 ##   base_power     against armor (armor takes a smaller share out of a bigger hit)
 ##   base_hit_chance against dodge (more clean hits, fewer grazes)
-##   cooldown_mult  against shield (more hits per stretch of time than regen can keep up with)
+##   cooldown_mult  against shield (more hits per stretch of time than recharge can keep up with)
 
 
 @export var id: StringName = &""
@@ -41,36 +41,36 @@ extends Resource
 ## most status and heal moves are CHOSEN unless they are strictly self targeting
 @export var targeting: Enums.Targeting = Enums.Targeting.FIXED
 
-## true if it targets your own team, false if it targets the enemy team
-@export var targets_allies: bool = false
+## who the skill can reach, see Reaches in enums
+## SELF always hits just the user, whatever the positions and targeting say
+@export var reaches: Enums.Reaches = Enums.Reaches.ENEMIES
 
 ## rare: an attack that skips the hit roll entirely, this is very uncommon
 @export var unmissable: bool = false
 
-## attack only: share of the damage actually dealt that heals the user
-## counts damage after armor, crit and graze, summed over every target
-## nothing on a miss or a shield block, and overkill doesn't count
-## 0.0 means no lifesteal
-## 0.5 would mean healing yourself for half the damage dealt
-@export var lifesteal_percent: float = 0.0
-
-## effects this skill applies on top of its damage or heal
-## each one lands on the skill's target, or on the user if it has targets_self
-## on an attack, effects on the target land on a clean hit or a graze, never on a miss
-## a shield block counts the same as a miss
-## self effects fire once per use, whatever the hit result was
-@export var effects: Array[EffectSpec] = []
+## everything this skill does on top of its base numbers: stacks, cleanses, direct heals, its own mults and more
+## each part says when it happens (its window) and can have a yes/no condition, see SkillPart
+## parts in the same window happen in list order
+## lifesteal is a DirectHeal part on yourself, on damage, "0.3 * damage_dealt"
+@export var parts: Array[SkillPart] = []
 
 
+## true if this skill is an attack
 func is_attack() -> bool:
 	return kind == Enums.SkillKind.ATTACK
 
 
-## only attacks on enemies do the double hit roll
+## every attack does the double hit roll, on enemies and allies alike
 ## heals and status skills always land, and so do unmissable attacks
 func rolls_hit_chance() -> bool:
-	return is_attack() and not targets_allies and not unmissable
+	return is_attack() and not unmissable
 
 
+## true if someone has to pick the one target, a CHOSEN skill that doesn't just hit the user
+func picks_target() -> bool:
+	return targeting == Enums.Targeting.CHOSEN and reaches != Enums.Reaches.SELF
+
+
+## true if the skill reaches this position
 func can_target_position(slot: int) -> bool:
 	return valid_target_positions.has(slot)

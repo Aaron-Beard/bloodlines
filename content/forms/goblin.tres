@@ -1,18 +1,20 @@
-[gd_resource type="Resource" script_class="Form" load_steps=4 format=3]
+[gd_resource type="Resource" script_class="EnemyForm" format=3]
 
-[ext_resource type="Script" path="res://src/data/form.gd" id="1_form"]
-[ext_resource type="Resource" path="res://content/skills/stab.tres" id="2_sig"]
-[ext_resource type="Resource" path="res://content/skills/rock_toss.tres" id="3_pool"]
+[ext_resource type="Script" path="res://src/data/enemy_form.gd" id="1_form"]
+[ext_resource type="Texture2D" uid="uid://b85jvngnynlo6" path="res://assets/creatures/goblin.png" id="image"]
+[ext_resource type="Resource" path="res://content/skills/stab.tres" id="2_stab"]
+[ext_resource type="Resource" path="res://content/skills/rock_toss.tres" id="3_rock_toss"]
+[ext_resource type="Resource" path="res://content/skills/war_cry.tres" id="4_war_cry"]
+[ext_resource type="Resource" path="res://content/skills/dispel.tres" id="5_dispel"]
 
 [resource]
 script = ExtResource("1_form")
 id = &"goblin"
 display_name = "Goblin"
-family = &"goblin"
+image = ExtResource("image")
 pat_attribute_scaling = 0
 fer_attribute_scaling = 0
 int_attribute_scaling = 1
-base_offense_points = 12
-base_defense_points = 13
-signature_attack = ExtResource("2_sig")
-skill_pool = Array[Resource]([ExtResource("3_pool")])
+base_offense_points = 19
+base_defense_points = 21
+fixed_skills = Array[Resource]([ExtResource("2_stab"), ExtResource("3_rock_toss"), ExtResource("4_war_cry"), ExtResource("5_dispel")])

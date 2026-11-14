@@ -1,21 +1,26 @@
-[gd_resource type="Resource" script_class="Form" load_steps=7 format=3]
+[gd_resource type="Resource" script_class="PlayerForm" format=3]
 
-[ext_resource type="Script" path="res://src/data/form.gd" id="1_form"]
-[ext_resource type="Resource" path="res://content/skills/steady_strike.tres" id="2_sig"]
-[ext_resource type="Resource" path="res://content/skills/mend.tres" id="6_pool"]
-[ext_resource type="Resource" path="res://content/skills/guard_up.tres" id="5_pool"]
-[ext_resource type="Resource" path="res://content/skills/shove.tres" id="3_pool"]
-[ext_resource type="Resource" path="res://content/skills/patient_shot.tres" id="4_pool"]
+[ext_resource type="Script" path="res://src/data/player_form.gd" id="1_form"]
+[ext_resource type="Texture2D" uid="uid://dynaebyreutcy" path="res://assets/creatures/golem_hatchling.png" id="image"]
+[ext_resource type="Resource" path="res://content/skills/shard_bash.tres" id="2_shard_bash"]
+[ext_resource type="Resource" path="res://content/skills/mend.tres" id="3_mend"]
+[ext_resource type="Resource" path="res://content/skills/guard_up.tres" id="4_guard_up"]
+[ext_resource type="Resource" path="res://content/skills/shove.tres" id="5_shove"]
+[ext_resource type="Resource" path="res://content/skills/insulate.tres" id="6_insulate"]
+[ext_resource type="Resource" path="res://content/skills/crystallize.tres" id="7_crystallize"]
+[ext_resource type="Resource" path="res://content/skills/purify.tres" id="8_purify"]
 
 [resource]
 script = ExtResource("1_form")
 id = &"golem_hatchling"
 display_name = "Geode"
+image = ExtResource("image")
 family = &"golem"
+tier = 0
 pat_attribute_scaling = 1
 fer_attribute_scaling = 0
 int_attribute_scaling = 0
-base_offense_points = 11
-base_defense_points = 14
-signature_attack = ExtResource("2_sig")
-skill_pool = Array[Resource]([ExtResource("3_pool"), ExtResource("4_pool"), ExtResource("5_pool"), ExtResource("6_pool")])
+base_offense_points = 18
+base_defense_points = 22
+signature_attack = ExtResource("2_shard_bash")
+skill_pool = Array[Resource]([ExtResource("3_mend"), ExtResource("4_guard_up"), ExtResource("5_shove"), ExtResource("6_insulate"), ExtResource("7_crystallize"), ExtResource("8_purify")])

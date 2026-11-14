@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EnemyForm" format=3]
+
+[ext_resource type="Script" path="res://src/data/enemy_form.gd" id="1_form"]
+[ext_resource type="Texture2D" path="res://icon.svg" id="image"]
+[ext_resource type="Resource" path="res://content/skills/stab.tres" id="2_stab"]
+[ext_resource type="Resource" path="res://content/skills/rend.tres" id="3_rend"]
+[ext_resource type="Resource" path="res://content/skills/patient_shot.tres" id="4_patient_shot"]
+[ext_resource type="Resource" path="res://content/skills/execute.tres" id="5_execute"]
+
+[resource]
+script = ExtResource("1_form")
+id = &"bandit"
+display_name = "Bandit"
+image = ExtResource("image")
+pat_attribute_scaling = 0
+fer_attribute_scaling = 1
+int_attribute_scaling = 0
+base_offense_points = 22
+base_defense_points = 18
+fixed_skills = Array[Resource]([ExtResource("2_stab"), ExtResource("3_rend"), ExtResource("4_patient_shot"), ExtResource("5_execute")])

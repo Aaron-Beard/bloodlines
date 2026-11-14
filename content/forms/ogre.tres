@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="EnemyForm" format=3]
+
+[ext_resource type="Script" path="res://src/data/enemy_form.gd" id="1_form"]
+[ext_resource type="Texture2D" path="res://icon.svg" id="image"]
+[ext_resource type="Resource" path="res://content/skills/reckless_slam.tres" id="2_reckless_slam"]
+[ext_resource type="Resource" path="res://content/skills/sweep.tres" id="3_sweep"]
+[ext_resource type="Resource" path="res://content/skills/war_cry.tres" id="4_war_cry"]
+
+[resource]
+script = ExtResource("1_form")
+id = &"ogre"
+display_name = "Ogre"
+image = ExtResource("image")
+pat_attribute_scaling = 2
+fer_attribute_scaling = 0
+int_attribute_scaling = 0
+base_offense_points = 45
+base_defense_points = 55
+override_armor = true
+armor_scaling = 2.4
+override_shield_capacity = true
+shield_capacity_count = 3
+override_shield_charges_at_start = true
+shield_charges_at_start_count = 2
+fixed_skills = Array[Resource]([ExtResource("2_reckless_slam"), ExtResource("3_sweep"), ExtResource("4_war_cry")])

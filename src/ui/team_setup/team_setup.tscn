@@ -1,0 +1,99 @@
+[gd_scene format=3 uid="uid://dpre65v1msego"]
+
+[ext_resource type="Script" uid="uid://enenlismsptc" path="res://src/ui/team_setup/team_setup.gd" id="1_vrvh7"]
+[ext_resource type="Texture2D" uid="uid://fbcrhp2accyo" path="res://assets/background.jpg" id="2_oxwca"]
+[ext_resource type="PackedScene" uid="uid://jbat18xlm7f3" path="res://src/ui/team_setup/creature_picker.tscn" id="3_mrmsb"]
+[ext_resource type="PackedScene" path="res://src/ui/team_setup/skill_picker.tscn" id="4_skills"]
+
+[node name="TeamSetup" type="Control" unique_id=397901375]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vrvh7")
+
+[node name="Background" type="TextureRect" parent="." unique_id=1393402822]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+texture = ExtResource("2_oxwca")
+expand_mode = 2
+
+[node name="MainMargin" type="MarginContainer" parent="." unique_id=1989710676]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_right = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="MainLayout" type="VBoxContainer" parent="MainMargin" unique_id=987861285]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Header" type="HBoxContainer" parent="MainMargin/MainLayout" unique_id=1134792659]
+layout_mode = 2
+offset_transform_enabled = true
+alignment = 1
+
+[node name="Title" type="Label" parent="MainMargin/MainLayout/Header" unique_id=449475158]
+layout_mode = 2
+offset_transform_position = Vector2(0, 16.765)
+text = "Select Your Creatures"
+
+[node name="TeamsContainer" type="VBoxContainer" parent="MainMargin/MainLayout" unique_id=308832418]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 60
+
+[node name="PlayerPanel" type="PanelContainer" parent="MainMargin/MainLayout/TeamsContainer" unique_id=1501931208]
+layout_mode = 2
+
+[node name="PlayerLayout" type="VBoxContainer" parent="MainMargin/MainLayout/TeamsContainer/PlayerPanel" unique_id=148857541]
+layout_mode = 2
+
+[node name="PLAYER TEAM" type="Label" parent="MainMargin/MainLayout/TeamsContainer/PlayerPanel/PlayerLayout" unique_id=131014225]
+layout_mode = 2
+text = "PLAYER TEAM"
+
+[node name="PlayerSlots" type="GridContainer" parent="MainMargin/MainLayout/TeamsContainer/PlayerPanel/PlayerLayout" unique_id=1951105549]
+layout_mode = 2
+columns = 4
+
+[node name="EnemyPanel" type="PanelContainer" parent="MainMargin/MainLayout/TeamsContainer" unique_id=851650345]
+layout_mode = 2
+
+[node name="EnemyLayout" type="VBoxContainer" parent="MainMargin/MainLayout/TeamsContainer/EnemyPanel" unique_id=1178667483]
+layout_mode = 2
+
+[node name="ENEMY TEAM" type="Label" parent="MainMargin/MainLayout/TeamsContainer/EnemyPanel/EnemyLayout" unique_id=67609922]
+layout_mode = 2
+text = "ENEMY TEAM"
+
+[node name="EnemySlots" type="GridContainer" parent="MainMargin/MainLayout/TeamsContainer/EnemyPanel/EnemyLayout" unique_id=1022863109]
+layout_mode = 2
+columns = 4
+
+[node name="BottomBar" type="VBoxContainer" parent="MainMargin/MainLayout" unique_id=1282130703]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 10
+
+[node name="StartFightButton" type="Button" parent="MainMargin/MainLayout/BottomBar" unique_id=381940401]
+layout_mode = 2
+text = "     START     "
+
+[node name="CreaturePicker" parent="." unique_id=364917334 instance=ExtResource("3_mrmsb")]
+visible = false
+
+[node name="SkillPicker" parent="." instance=ExtResource("4_skills")]
+visible = false

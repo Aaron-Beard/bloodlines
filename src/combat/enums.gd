@@ -9,7 +9,7 @@ extends RefCounted
 enum Attribute { PAT, FER, INT }
 
 ## the six stats every unit gets from its attributes and points
-## SHIELD means shield regen speed, not how many charges a unit holds
+## SHIELD means shield recharge speed, not how many charges a unit holds
 enum Stat { ACCURACY, ARMOR, SPEED, DODGE, PEN, SHIELD }
 
 ## a species' scaling for one attribute
@@ -40,10 +40,12 @@ enum Side { PLAYER, ENEMY }
 ## attacks are generally FIXED
 enum Targeting { FIXED, CHOSEN }
 
-## bleed, burn and poison all work mechanically the same and share one stack limit
-## the type only matters to skills that pay off on a specific type
-## NONE is only for effects that aren't dots
-enum DotType { NONE, BLEED, BURN, POISON }
+## which units a skill can reach
+## ENEMIES: the other team, in the skill's positions
+## ALLIES: your own team in the skill's positions, yourself included
+## ALLIES_NOT_SELF: your own team in the skill's positions, never yourself
+## SELF: only yourself, the skill's positions and FIXED or CHOSEN don't matter
+enum Reaches { ENEMIES, ALLIES, ALLIES_NOT_SELF, SELF }
 
 ## rolled with the double upgrade roll, see balance constants
 enum AugmentRarity { COMMON, UNCOMMON, RARE }
@@ -66,4 +68,34 @@ const STAT_USES_OFFENSE_POINTS: Dictionary[Stat, bool] = {
 	Stat.DODGE: false,
 	Stat.PEN: true,
 	Stat.SHIELD: false,
+}
+
+## every stack type a unit can hold, one name each
+## a buff and a debuff of the same stat are two different types
+## BLEED, BURN and POISON are the three dots, HOT is heal over time
+enum StackType {
+	ACCURACY_UP, ACCURACY_DOWN, ARMOR_UP, ARMOR_DOWN, SPEED_UP, SPEED_DOWN,
+	DODGE_UP, DODGE_DOWN, PEN_UP, PEN_DOWN, SHIELD_UP, SHIELD_DOWN,
+	DAMAGE_DEALT_UP, DAMAGE_DEALT_DOWN, DAMAGE_TAKEN_UP, DAMAGE_TAKEN_DOWN,
+	BLEED, BURN, POISON, HOT,
+}
+
+## the stack type that raises each stat
+const STAT_UP_STACK: Dictionary[Stat, StackType] = {
+	Stat.ACCURACY: StackType.ACCURACY_UP,
+	Stat.ARMOR: StackType.ARMOR_UP,
+	Stat.SPEED: StackType.SPEED_UP,
+	Stat.DODGE: StackType.DODGE_UP,
+	Stat.PEN: StackType.PEN_UP,
+	Stat.SHIELD: StackType.SHIELD_UP,
+}
+
+## the stack type that lowers each stat
+const STAT_DOWN_STACK: Dictionary[Stat, StackType] = {
+	Stat.ACCURACY: StackType.ACCURACY_DOWN,
+	Stat.ARMOR: StackType.ARMOR_DOWN,
+	Stat.SPEED: StackType.SPEED_DOWN,
+	Stat.DODGE: StackType.DODGE_DOWN,
+	Stat.PEN: StackType.PEN_DOWN,
+	Stat.SHIELD: StackType.SHIELD_DOWN,
 }

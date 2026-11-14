@@ -1,0 +1,94 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/ui/team_setup/skill_picker.gd" id="1_txpjj"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_txpjj"]
+bg_color = Color(0.120000005, 0.21966669, 0.25, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hmqmd"]
+bg_color = Color(0.039215688, 0.12156863, 0.14901961, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h6xrl"]
+bg_color = Color(0.29411766, 0.44705883, 0.5019608, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0wcjo"]
+bg_color = Color(0.1, 0.1, 0.1, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.07, 0.08, 0.09, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.25, 0.25, 0.25, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="SkillPicker" type="PopupPanel"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+oversampling_override = 1.0
+size = Vector2i(308, 151)
+visible = true
+script = ExtResource("1_txpjj")
+
+[node name="PickerLayout" type="VBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PickerHeader" type="HBoxContainer" parent="PickerLayout"]
+layout_mode = 2
+
+[node name="PickerTitle" type="Label" parent="PickerLayout/PickerHeader"]
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="PickerLayout/PickerHeader"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CloseButton" type="Button" parent="PickerLayout/PickerHeader"]
+layout_mode = 2
+text = "  x  "
+alignment = 2
+
+[node name="SkillGrid" type="GridContainer" parent="PickerLayout"]
+layout_mode = 2
+columns = 3
+
+[node name="SelectButton" type="Button" parent="PickerLayout"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_txpjj")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_hmqmd")
+theme_override_styles/hover = SubResource("StyleBoxFlat_h6xrl")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_0wcjo")
+text = "     Select     "
+
+[node name="Spacer" type="Control" parent="PickerLayout"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2

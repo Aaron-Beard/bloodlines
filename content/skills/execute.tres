@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="Skill" format=3]
+
+[ext_resource type="Script" path="res://src/data/skill.gd" id="1_skill"]
+[ext_resource type="Script" path="res://src/data/skill/skill_part.gd" id="2_part"]
+[ext_resource type="Script" path="res://src/data/skill/conditions/compare.gd" id="3_compare"]
+[ext_resource type="Script" path="res://src/data/skill/parts/base_power_mult.gd" id="4_base_power_mult"]
+
+[sub_resource type="Resource" id="Resource_c1"]
+script = ExtResource("3_compare")
+left = "target_hp"
+comparison = 0
+right = "0.4 * target_max_hp"
+
+[sub_resource type="Resource" id="Resource_p2"]
+script = ExtResource("4_base_power_mult")
+window = 1
+mult = "1.5"
+condition = SubResource("Resource_c1")
+
+[resource]
+script = ExtResource("1_skill")
+id = &"execute"
+display_name = "Execute"
+kind = 0
+base_power = 7.0
+base_hit_chance = 0.85
+cooldown_mult = 1.1
+valid_target_positions = Array[int]([0, 1])
+targeting = 1
+reaches = 0
+parts = Array[ExtResource("2_part")]([SubResource("Resource_p2")])

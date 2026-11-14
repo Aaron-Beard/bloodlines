@@ -12,7 +12,7 @@ extends RefCounted
 ## most numbers in here are placeholders until playtesting, so don't treat them as final
 
 # STATS
-# all six stats (armor, pen, accuracy, dodge, speed, shield regen rate) are calculated the same way
+# all six stats (armor, pen, accuracy, dodge, speed, shield recharge rate) are calculated the same way
 # stat = level * (attribute scaling + fruit bonus + points bonus) * that stat's global mult
 # fruit and point bonus are both calculated as bonus = (number of fruits || points) * (bonus per fruit || point)
 
@@ -29,17 +29,38 @@ const ATTRIBUTE_SCALING_PER_FRUIT: = 0.5 / 20.0
 
 ## how much scaling one combat point (off/def) is worth
 ## this contributes additively with fruit bonus and attribute scaling
-## numerator is equivalent to going from low to moderate or moderate to high
-## denominator is how many points to get that equivalent boost
-const COMBAT_POINT_RATIO: = 0.5 / 35.0
+## 1 point is +1% max HP or hit size, so 50 points is worth one attribute step (0.5)
+## placeholder until playtesting
+const COMBAT_POINT_RATIO: = 0.01
+
+## total combat points a player form has at each tier, base points plus the bonus pool
+## in order of baby, intermediate, final: 50, 75, 100
+## each evolution adds half an attribute step's worth, that's the reward for reaching a new form
+
+## base offense + base defense every player form of a tier shares, only the split is different
+## in order of baby, intermediate, final, placeholders until playtesting
+const BASE_POINTS_TOTAL_BY_TIER: Array[int] = [40, 60, 80]
+
+## points the player spends between offense and defense, always fully spent
+## the same for every player form of a tier, 20% of the tier's total so a form's own split stays strong
+## in order of baby, intermediate, final, placeholders until playtesting
+## enemy forms have no pool, their points are written straight into the form
+const BONUS_POOL_BY_TIER: Array[int] = [10, 15, 20]
 
 # max HP = BASE_HP_PER_LEVEL * level * (1 + COMBAT_POINT_RATIO * defense points)
 
 ## max HP per level for a unit with no points invested in defense
 ## this is basically the base HP all units get by default per level
+## placeholder, lowered from 100 in demo testing
 const BASE_HP_PER_LEVEL: = 25.0
 
-# hit = base_power * level * (1 + COMBAT_POINT_RATIO * offense points)
+# hit = base_power * level * (1 + COMBAT_POINT_RATIO * offense points) * GLOBAL_BASE_POWER_MULT
+
+## multiplies every skill's base power, so every hit and heal gets bigger or smaller
+## armor and pen are multiplied by this too, so armor still takes the same share of each hit
+## this works as the inverse of scaling HP: doubling this and BASE_HP_PER_LEVEL together gives the same fights
+## raising it on its own makes fights shorter, lowering it makes them longer
+const GLOBAL_BASE_POWER_MULT: = 1.0
 
 ## damage multiplier when attack results in graze
 ## this is a multiplier for damage dealt
@@ -47,10 +68,10 @@ const BASE_HP_PER_LEVEL: = 25.0
 const GRAZE_DAMAGE_MULT: = 0.55
 
 # armor = level * (patience scaling + fruit scaling + defense points scaling)
-#         * GLOBAL_ARMOR_MULT
+#         * GLOBAL_ARMOR_MULT * GLOBAL_BASE_POWER_MULT
 
 # pen = level * (intuition scaling + fruit scaling + offense points scaling)
-#       * GLOBAL_PEN_MULT
+#       * GLOBAL_PEN_MULT * GLOBAL_BASE_POWER_MULT
 
 # armor_left = armor - pen (never less than 0)
 
@@ -115,10 +136,13 @@ const FINAL_HIT_CHANCE_MAX: = 1.0
 const BASE_CRIT_CHANCE: = 0.05
 
 ## crit chance gained per level per 1.0 scaling of PAT
+## PAT gives double what offense does, so crit is part of a high PAT species' identity
+## test and watch: level 30, high PAT, 100 offense comes to 95%
 const CRIT_CHANCE_PER_PAT: = 0.010
 
 ## crit chance gained per level per point of offense
-const CRIT_CHANCE_PER_OFFENSE_POINT: = 0.0005
+## test and watch, see CRIT_CHANCE_PER_PAT
+const CRIT_CHANCE_PER_OFFENSE_POINT: = 0.0001
 
 ## base damage multiplier for critical hits
 const BASE_CRIT_DAMAGE_MULT: = 1.5
@@ -127,7 +151,9 @@ const BASE_CRIT_DAMAGE_MULT: = 1.5
 const CRIT_DAMAGE_MULT_PER_INT: = 0.020
 
 ## crit damage mult gained per level per point of offense
-const CRIT_DAMAGE_MULT_PER_OFFENSE_POINT: = 0.0010
+## cut by the same factor as CRIT_CHANCE_PER_OFFENSE_POINT, no crit damage target set yet
+## level 30, high INT, 100 offense comes to 3.3x
+const CRIT_DAMAGE_MULT_PER_OFFENSE_POINT: = 0.0002
 
 # speed = level * (FER scaling + fruit scaling + offense points scaling) * GLOBAL_SPEED_MULT
 # cooldown = AV_BASE / speed * the skill's cooldown_mult
@@ -140,19 +166,19 @@ const AV_BASE: = 10000.0
 
 ## global multiplier for all units speed
 ## changing this won't affect unit speed against each other and will always be the same relative speed calculation
-## this is only to weight against the global shield regen stat
-## if regen is too high relative to speed, nobody will ever take damage
-## if speed is too high relative to regen, no shield will ever recharge 
-## generally leave this as 1 and just change shield regen if you are worried about shield recharge rates
+## this is only to weight against the global shield recharge stat
+## if recharge is too high relative to speed, nobody will ever take damage
+## if speed is too high relative to recharge, no shield will ever recharge 
+## generally leave this as 1 and just change shield recharge if you are worried about shield recharge rates
 const GLOBAL_SPEED_MULT: = 1.0
 
-# shield regen speed = level * (INT scaling + fruit scaling + defense points scaling)
-#                      * GLOBAL_SHIELD_REGEN_MULT
-# AV per shield charge = AV_BASE / shield regen speed
+# shield recharge speed = level * (INT scaling + fruit scaling + defense points scaling)
+#                      * GLOBAL_SHIELD_RECHARGE_MULT
+# AV per shield charge = AV_BASE / shield recharge speed
 
-## global multiplier for shield regen rates
+## global multiplier for shield recharge rates
 ## this must be primarily weighed against global speed mult
-const GLOBAL_SHIELD_REGEN_MULT: = 0.2
+const GLOBAL_SHIELD_RECHARGE_MULT: = 0.2
 
 ## this is the maximum amount of shield charges a unit can have
 ## this is based solely on your inherent scaling for INT
@@ -197,7 +223,10 @@ const DOT_HOT_HP_PERCENT: = 0.05
 # counters start after SUDDEN_DEATH_START_BASELINE_TURNS,
 # then one more every SUDDEN_DEATH_BASELINE_TURNS_PER_COUNTER
 # sudden death counters can never be cleansed or purged
-# these counters globally reduce all defenses to increase lethality of all units
+# each counter multiplies a unit's defenses (armor, dodge, shield recharge) by (1 - SUDDEN_DEATH_DEFENSE_LOSS_PER_COUNTER)
+# and its damage taken by (1 + SUDDEN_DEATH_DAMAGE_TAKEN_PER_COUNTER), so 4 counters is 0.95^4 and 1.05^4
+# multiplying per counter means defenses shrink but never reach 0, and damage taken keeps growing so a fight always ends
+# each counter also takes SUDDEN_DEATH_MAX_HP_PER_COUNTER of max hp off a unit at the end of its own turns
 # realistically this should never be relevant unless a player is intentionally stalling a fight for some reason
 
 ## baseline turns that pass before sudden death starts to take effect
@@ -208,13 +237,18 @@ const SUDDEN_DEATH_START_BASELINE_TURNS: = 30.0
 ## baseline turns between sudden death counters being added after they start
 const SUDDEN_DEATH_BASELINE_TURNS_PER_COUNTER: = 2.5
 
-## percentage of all defenses reduced per counter of sudden death applied by default
+## share of what's left of each defense taken off per counter of sudden death
 const SUDDEN_DEATH_DEFENSE_LOSS_PER_COUNTER: = 0.05
 
-## percentage increased damage taken per counter of sudden death applied by default
+## damage taken goes up by this share per counter of sudden death, on top of the last counter
 const SUDDEN_DEATH_DAMAGE_TAKEN_PER_COUNTER: = 0.05
 
-## percentage of healing received reduced per counter of sudden death applied by default
+## share of max hp a unit loses at the end of each of its own turns, per sudden death counter
+## nothing changes it: no shield, armor, damage taken stacks or crit, and no on damage parts
+## so even a unit that blocks or heals every hit still goes down in the end
+const SUDDEN_DEATH_MAX_HP_PER_COUNTER: = 0.01
+
+## share of what's left of healing received taken off per counter of sudden death
 ## for now set to 0
 ## can be changed later if healing needs to be nerfed during sudden death
 ## unlikely to be necessary

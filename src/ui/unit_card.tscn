@@ -1,0 +1,81 @@
+[gd_scene format=3]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+
+[node name="UnitCard" type="PanelContainer"]
+custom_minimum_size = Vector2(300, 0)
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="Lines" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="Lines"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="OddsLabel" type="Label" parent="Lines"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 1, 0.5, 1)
+autowrap_mode = 3
+
+[node name="HpLabel" type="Label" parent="Lines"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HpBar" type="ProgressBar" parent="Lines"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+mouse_filter = 2
+show_percentage = false
+
+[node name="AvLabel" type="Label" parent="Lines"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ShieldLabel" type="Label" parent="Lines"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="EffectsLabel" type="Label" parent="Lines"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.6, 1)
+autowrap_mode = 3
+
+[node name="ArmorLabel" type="Label" parent="Lines"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="AccuracyLabel" type="Label" parent="Lines"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PickLabel" type="Label" parent="Lines"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="CancelButton" type="Button" parent="Lines"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "Cancel"
+
+[node name="SkillButtons" type="HFlowContainer" parent="Lines"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="WaitButton" type="Button" parent="Lines/SkillButtons"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "Wait"

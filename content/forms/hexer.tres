@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EnemyForm" format=3]
+
+[ext_resource type="Script" path="res://src/data/enemy_form.gd" id="1_form"]
+[ext_resource type="Texture2D" path="res://icon.svg" id="image"]
+[ext_resource type="Resource" path="res://content/skills/scorch.tres" id="2_scorch"]
+[ext_resource type="Resource" path="res://content/skills/transfuse.tres" id="3_transfuse"]
+[ext_resource type="Resource" path="res://content/skills/dispel.tres" id="4_dispel"]
+[ext_resource type="Resource" path="res://content/skills/expose.tres" id="5_expose"]
+
+[resource]
+script = ExtResource("1_form")
+id = &"hexer"
+display_name = "Hexer"
+image = ExtResource("image")
+pat_attribute_scaling = 0
+fer_attribute_scaling = 0
+int_attribute_scaling = 2
+base_offense_points = 16
+base_defense_points = 24
+fixed_skills = Array[Resource]([ExtResource("2_scorch"), ExtResource("3_transfuse"), ExtResource("4_dispel"), ExtResource("5_expose")])

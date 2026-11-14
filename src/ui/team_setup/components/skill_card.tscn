@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/ui/team_setup/components/skill_card.gd" id="1_card"]
+
+[node name="SkillCard" type="PanelContainer"]
+custom_minimum_size = Vector2(240, 0)
+script = ExtResource("1_card")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="SkillName" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="SkillText" type="Label" parent="VBoxContainer"]
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+autowrap_mode = 3

@@ -1,0 +1,73 @@
+[gd_scene format=3 uid="uid://b312gijm0snll"]
+
+[ext_resource type="Script" uid="uid://dgvw3xj1l5tm7" path="res://src/ui/team_setup/components/team_slot.gd" id="1_1jhxe"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ohrx4"]
+bg_color = Color(0.12941177, 0.12941177, 0.12941177, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.12941177, 0.12941177, 0.12941177, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="TeamSlot" type="PanelContainer" unique_id=1996517450]
+custom_minimum_size = Vector2(200, 100)
+custom_maximum_size = Vector2(200, -1)
+theme_override_styles/panel = SubResource("StyleBoxFlat_ohrx4")
+script = ExtResource("1_1jhxe")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=112619083]
+custom_maximum_size = Vector2(200, -1)
+layout_mode = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="PositionLabel" type="Label" parent="VBoxContainer" unique_id=134995424]
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="CreatureImage" type="TextureRect" parent="VBoxContainer" unique_id=1292415817]
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CreatureName" type="Label" parent="VBoxContainer" unique_id=968853378]
+layout_mode = 2
+
+[node name="Split" type="HBoxContainer" parent="VBoxContainer" unique_id=824275115]
+custom_maximum_size = Vector2(200, -1)
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="OffenseLabel" type="Label" parent="VBoxContainer/Split" unique_id=1840292945]
+layout_mode = 2
+
+[node name="AllocationSlider" type="HSlider" parent="VBoxContainer/Split" unique_id=2120735994]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+
+[node name="DefenseLabel" type="Label" parent="VBoxContainer/Split" unique_id=1185836521]
+layout_mode = 2
+
+[node name="TotalsLabel" type="Label" parent="VBoxContainer" unique_id=1910270635]
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="Buttons" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="SkillsButton" type="Button" parent="VBoxContainer/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Skills"
+
+[node name="ClearButton" type="Button" parent="VBoxContainer/Buttons" unique_id=45491705]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Remove"
